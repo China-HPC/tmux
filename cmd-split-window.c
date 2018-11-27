@@ -69,6 +69,11 @@ cmd_split_window_exec(struct cmd *self, struct cmdq_item *item)
 	struct environ_entry	*envent;
 	struct cmd_find_state    fs;
 
+    if (getenv("CMD_SPLIT_WINDOW_DISABLED") != NULL) {
+        cmdq_error(item, "disabled");
+        return (CMD_RETURN_ERROR);
+    }
+
 	server_unzoom_window(w);
 
 	if (args->argc == 0) {
