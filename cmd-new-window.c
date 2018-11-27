@@ -63,6 +63,11 @@ cmd_new_window_exec(struct cmd *self, struct cmdq_item *item)
 	struct environ_entry	*envent;
 	struct cmd_find_state	 fs;
 
+    if (getenv("CMD_NEW_WINDOW_DISABLED") != NULL) {
+		cmdq_error(item, "disabled");
+        return (CMD_RETURN_ERROR);
+    }
+
 	if (args_has(args, 'a') && wl != NULL) {
 		if ((idx = winlink_shuffle_up(s, wl)) == -1) {
 			cmdq_error(item, "no free window indexes");
